@@ -1,0 +1,10 @@
+/* Reset mínimo para un lienzo accesible y consistente. */
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { min-width: 32rem; scroll-behavior: smooth; }
+  body { margin: 0; }
+  button, textarea, input { font: inherit; }
+  button { cursor: pointer; }
+  img, svg { display: block; max-width: 100%; }
+  :focus-visible { outline: .2rem solid var(--color-primary); outline-offset: .3rem; box-shadow: var(--focus-ring); }
+}

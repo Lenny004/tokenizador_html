@@ -1,0 +1,76 @@
+/* Tokens globales: paleta, tipografía, ritmo y capas. */
+:root {
+  font-size: 62.5%;
+  --blue-950: #07111f;
+  --blue-900: #0c1a2f;
+  --blue-800: #122945;
+  --blue-500: #48a4ff;
+  --blue-300: #9fd4ff;
+  --teal-400: #46d7c1;
+  --red-400: #ff7b8b;
+  --gray-100: #f2f6fb;
+  --gray-300: #c8d2df;
+  --gray-500: #8190a3;
+  --color-primary: var(--blue-500);
+  --color-accent: var(--teal-400);
+  --color-bg: var(--blue-950);
+  --color-surface: rgba(17, 37, 64, .84);
+  --color-surface-raised: #152f50;
+  --color-text: var(--gray-100);
+  --color-text-muted: var(--gray-300);
+  --color-border: rgba(159, 212, 255, .2);
+  --color-radial: #16355c;
+  --color-overlay: rgba(255, 255, 255, .04);
+  --color-overlay-dark: rgba(0, 0, 0, .12);
+  --color-structure: #6ce0ad;
+  --color-syntax: #aeb9c8;
+  --color-logic: var(--red-400);
+  --color-structure-soft: rgba(108, 224, 173, .08);
+  --color-syntax-soft: rgba(174, 185, 200, .08);
+  --color-logic-soft: rgba(255, 123, 139, .08);
+  --font-family-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-family-mono: "IBM Plex Mono", Consolas, monospace;
+  --font-size-xs: 1.2rem;
+  --font-size-sm: 1.4rem;
+  --font-size-md: 1.6rem;
+  --font-size-lg: 2rem;
+  --font-size-xl: clamp(2.8rem, 5vw, 5rem);
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.1;
+  --line-height-normal: 1.5;
+  --space-1: .4rem;
+  --space-2: .8rem;
+  --space-3: 1.2rem;
+  --space-4: 1.6rem;
+  --space-5: 2.4rem;
+  --space-6: 3.2rem;
+  --space-7: 4.8rem;
+  --radius-sm: .8rem;
+  --radius-md: 1.4rem;
+  --radius-lg: 2.4rem;
+  --shadow-panel: 0 2rem 6rem rgba(0, 0, 0, .22);
+  --transition-fast: 160ms ease;
+  --container-max: 144rem;
+  --focus-ring: 0 0 0 .3rem rgba(72, 164, 255, .35);
+}
+
+[data-theme="light"] {
+  --color-bg: #eef5fb;
+  --color-surface: rgba(255, 255, 255, .86);
+  --color-surface-raised: #fff;
+  --color-text: #14243a;
+  --color-text-muted: #52657c;
+  --color-border: rgba(18, 41, 69, .16);
+  --color-radial: #d8e9f8;
+  --color-overlay: rgba(18, 41, 69, .04);
+  --color-overlay-dark: rgba(18, 41, 69, .06);
+  --color-structure-soft: rgba(35, 140, 93, .12);
+  --color-syntax-soft: rgba(82, 101, 124, .1);
+  --color-logic-soft: rgba(188, 54, 73, .1);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) { --color-bg: #eef5fb; --color-surface: rgba(255, 255, 255, .86); --color-surface-raised: #fff; --color-text: #14243a; --color-text-muted: #52657c; --color-border: rgba(18, 41, 69, .16); --color-radial: #d8e9f8; --color-overlay: rgba(18, 41, 69, .04); --color-overlay-dark: rgba(18, 41, 69, .06); }
+}
