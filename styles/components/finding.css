@@ -1,0 +1,45 @@
+/* Bloque finding: hallazgo seleccionable por capa del análisis. */
+@layer components {
+  .finding {
+    --finding-focus-offset: 0.2rem;
+    --finding-badge-padding-block: var(--finding-focus-offset);
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+
+  .finding:focus-visible {
+    outline: var(--finding-focus-offset) solid var(--color-focus);
+    outline-offset: var(--finding-focus-offset);
+  }
+
+  .finding__badge {
+    padding: var(--finding-badge-padding-block) 0.6rem;
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+  }
+
+  .finding--structure {
+    color: var(--color-structure);
+    background: var(--color-structure-soft);
+  }
+
+  .finding--syntax {
+    color: var(--color-syntax);
+    background: var(--color-syntax-soft);
+  }
+
+  .finding--logic {
+    color: var(--color-logic);
+    background: var(--color-logic-soft);
+  }
+
+  .finding__message {
+    color: var(--color-text);
+  }
+}

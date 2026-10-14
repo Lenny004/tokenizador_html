@@ -1,6 +1,14 @@
-/* Entrada de estilos en capas para el prototipo. */
+/* Entrada única de estilos en capas. */
+@layer reset, tokens, base, layout, components, utilities;
+
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Space+Grotesk:wght@400;600;700&display=swap");
 @import url("tokens.css");
 @import url("reset.css");
 @import url("base.css");
-@import url("components.css");
+@import url("layout.css");
+@import url("components/identity.css");
+@import url("components/button.css");
+@import url("components/panel.css");
+@import url("components/editor.css");
+@import url("components/chat.css");
+@import url("components/finding.css");
