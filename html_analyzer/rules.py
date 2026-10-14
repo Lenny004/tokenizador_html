@@ -7,6 +7,18 @@ from .parser import AstNode, ParseResult, VOID_ELEMENTS
 
 @dataclass(slots=True)
 class Finding:
+    """Describe una regla incumplida y su ubicacion en el documento.
+
+    Attributes:
+        code: Codigo estable de la regla que produjo el hallazgo.
+        message: Explicacion destinada al usuario.
+        layer: Capa de estructura, sintaxis o logica.
+        severity: Severidad asignada por la regla.
+        line: Linea inicial del hallazgo.
+        column: Columna inicial del hallazgo.
+        end_column: Columna final, si la regla puede determinarla.
+    """
+
     code: str
     message: str
     layer: str
@@ -16,6 +28,7 @@ class Finding:
     end_column: int | None = None
 
     def as_dict(self) -> dict:
+        """Convierte el hallazgo a un diccionario con sus datos publicos."""
         return {"code": self.code, "message": self.message, "layer": self.layer, "severity": self.severity, "line": self.line, "column": self.column, "end_column": self.end_column}
 
 
@@ -23,10 +36,19 @@ ALLOWED_ATTRIBUTES = {"id", "class", "title", "style", "href", "src", "alt", "wi
 
 
 def _end(token: Token) -> int:
+    """Calcula la columna final aproximada de un token."""
     return token.column + max(len(token.value), 1)
 
 
 def run_structure_rules(parsed: ParseResult) -> list[Finding]:
+    """Detecta cierres, anidamiento y atributos invalidos en la estructura HTML.
+
+    Args:
+        parsed: Resultado del parsing HTML.
+
+    Returns:
+        Hallazgos de estructura, sintaxis de tokens HTML y reglas de atributos.
+    """
     findings: list[Finding] = []
     tag_stack: list[Token] = []
     for token in parsed.tokens:
@@ -52,6 +74,7 @@ def run_structure_rules(parsed: ParseResult) -> list[Finding]:
     seen_ids: set[str] = set()
 
     def visit(node: AstNode) -> None:
+        """Recorre el arbol para revisar anidamiento, ids y atributos."""
         if node.node_type != "element":
             for child in node.children:
                 visit(child)
@@ -85,6 +108,14 @@ def run_structure_rules(parsed: ParseResult) -> list[Finding]:
 
 
 def run_syntax_rules(parsed: ParseResult) -> list[Finding]:
+    """Detecta tokens invalidos, cadenas abiertas y delimitadores sin balancear.
+
+    Args:
+        parsed: Resultado con los scripts ya tokenizados.
+
+    Returns:
+        Hallazgos de sintaxis encontrados en los scripts.
+    """
     findings: list[Finding] = []
     for script in parsed.scripts:
         stack: list[Token] = []
@@ -106,6 +137,14 @@ def run_syntax_rules(parsed: ParseResult) -> list[Finding]:
 
 
 def run_logic_rules(parsed: ParseResult) -> list[Finding]:
+    """Detecta usos de identificadores sin una declaracion visible en scripts.
+
+    Args:
+        parsed: Resultado con los scripts ya tokenizados.
+
+    Returns:
+        Hallazgos de logica encontrados en los scripts.
+    """
     findings: list[Finding] = []
     declaration_words = {"var", "let", "const", "function"}
     for script in parsed.scripts:

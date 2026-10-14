@@ -4,6 +4,7 @@ from pathlib import Path
 
 
 def build() -> str:
+    """Genera el contenido HTML del fixture con errores distribuidos."""
     lines = [
         "<!doctype html>",
         '<html lang="es">',

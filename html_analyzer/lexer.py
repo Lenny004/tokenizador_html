@@ -8,6 +8,17 @@ import re
 
 @dataclass(slots=True)
 class Token:
+    """Representa una unidad lexica con su posicion en el texto de origen.
+
+    Attributes:
+        kind: Categoria del token.
+        value: Texto que ocupa el token.
+        line: Linea inicial, empezando en uno.
+        column: Columna inicial, empezando en uno.
+        offset: Offset inicial absoluto en el origen.
+        end: Offset absoluto inmediatamente posterior al token.
+    """
+
     kind: str
     value: str
     line: int
@@ -16,26 +27,38 @@ class Token:
     end: int
 
     def location(self) -> dict[str, int]:
+        """Devuelve la linea y columna iniciales del token."""
         return {"line": self.line, "column": self.column}
 
 
 @lru_cache(maxsize=8)
 def _line_starts(source: str) -> tuple[int, ...]:
+    """Calcula los offsets donde comienza cada linea del texto."""
     return (0, *(index + 1 for index, char in enumerate(source) if char == "\n"))
 
 
 def _position(source: str, offset: int) -> tuple[int, int]:
+    """Traduce un offset absoluto a una posicion de linea y columna."""
     starts = _line_starts(source)
     line_index = bisect_right(starts, offset) - 1
     return line_index + 1, offset - starts[line_index] + 1
 
 
 def _token(kind: str, value: str, source: str, start: int, end: int) -> Token:
+    """Crea un token calculando su posicion a partir de sus offsets."""
     line, column = _position(source, start)
     return Token(kind, value, line, column, start, end)
 
 
 def tokenize_html(source: str) -> list[Token]:
+    """Tokeniza etiquetas, atributos, texto, comentarios y errores HTML.
+
+    Args:
+        source: Documento HTML de entrada.
+
+    Returns:
+        Tokens en el orden en que aparecen en el origen.
+    """
     tokens: list[Token] = []
     index = 0
     text_start = 0
@@ -86,6 +109,7 @@ def tokenize_html(source: str) -> list[Token]:
 
 
 def _find_tag_end(source: str, start: int) -> int:
+    """Busca el cierre de una etiqueta respetando valores entre comillas."""
     quote = ""
     for index in range(start, len(source)):
         char = source[index]
@@ -102,6 +126,7 @@ def _find_tag_end(source: str, start: int) -> int:
 
 
 def _attribute_tokens(body: str, source: str, absolute_start: int) -> list[Token]:
+    """Extrae nombres y valores de atributos desde el cuerpo de una etiqueta."""
     tokens: list[Token] = []
     index = 0
     while index < len(body):
@@ -140,6 +165,16 @@ _JS_MULTI = ("===", "!==", "=>", "==", "!=", "<=", ">=", "++", "--", "&&", "||",
 
 
 def tokenize_js(source: str, offset: int = 0, position_source: str | None = None) -> list[Token]:
+    """Tokeniza un subconjunto tolerante de JavaScript y conserva posiciones absolutas.
+
+    Args:
+        source: Fragmento JavaScript que se va a tokenizar.
+        offset: Offset del fragmento dentro del documento completo.
+        position_source: Origen completo usado para calcular linea y columna.
+
+    Returns:
+        Tokens del fragmento, incluidos comentarios y construcciones invalidas.
+    """
     tokens: list[Token] = []
     index = 0
     while index < len(source):
