@@ -26,7 +26,8 @@
 - **AST tolerante**: conserva la estructura del documento para localizar anidamiento y cierres inesperados.
 - **Reglas en capas**: separa estructura, sintaxis y lógica para priorizar la corrección.
 - **Interfaz sin backend**: ejecuta Python mediante Pyodide desde una interfaz de chat y editor local.
-- **Fixture de rendimiento**: incluye `ejemplo_prueba.html` con 11 975 líneas y errores sembrados.
+- **Fixture de rendimiento**: incluye `ejemplo_prueba.html` con aproximadamente 3 000 líneas y 16 errores sembrados en tres capas.
+- **Editor resaltado**: marca cada hallazgo sobre la línea y permite saltar al rango exacto desde su tarjeta.
 
 <!-- section:overview -->
 ## ℹ️ Descripción
@@ -58,7 +59,7 @@ Abre `http://localhost:8000` en el navegador. El servidor es necesario porque el
 
 1. Pega HTML5 y JavaScript en el editor, carga un archivo o pulsa **Abrir ejemplo**.
 2. Pulsa **Analizar código**.
-3. Revisa el resumen y las tarjetas de hallazgos: verde es estructura, gris sintaxis y rojo lógica.
+3. Revisa el resumen, el resaltado sobre el editor y las tarjetas: verde es estructura, gris sintaxis y rojo lógica. Al seleccionar una tarjeta, el editor salta a su rango.
 
 También se puede analizar un archivo desde la terminal:
 
@@ -85,7 +86,7 @@ El resultado esperado es un JSON con `findings`, `tokens`, `scripts`, tiempo de 
 <!-- section:data -->
 ## 🧾 Datos
 
-`ejemplo_prueba.html` es un fixture UTF-8 generado por `scripts/generate_example.py`. Contiene registros repetidos para probar volumen, dos ids duplicados, un atributo no reconocido y un script con llaves, variables y comillas problemáticas.
+`ejemplo_prueba.html` es un fixture UTF-8 generado por `scripts/generate_example.py`. Contiene 2 897 líneas, registros repetidos para probar volumen y 16 errores distribuidos entre estructura, sintaxis y lógica.
 
 <!-- section:development -->
 ## 🛠️ Desarrollo
@@ -105,7 +106,7 @@ Los módulos mantienen nombres `snake_case`; la interfaz usa bloques BEM y los t
 python -m pytest -q
 ```
 
-Las pruebas cubren posiciones del lexer, cadenas JavaScript sin cerrar, construcción del AST, elementos void, capas de reglas y un documento de 3 000 repeticiones.
+Las pruebas cubren posiciones del lexer, cadenas JavaScript sin cerrar, construcción del AST, elementos void, capas de reglas, posiciones exactas del fixture de 2 897 líneas y rendimiento inferior a un segundo.
 
 <!-- section:contributing -->
 ## 💭 Soporte y contribuciones
@@ -115,4 +116,4 @@ Reporta errores con el código de regla, línea, columna y un fragmento mínimo 
 <!-- section:license -->
 ## 📄 Licencia
 
-TODO(readme): definir la licencia del prototipo.
+Uso académico.
