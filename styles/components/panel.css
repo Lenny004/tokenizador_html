@@ -1,0 +1,30 @@
+/* Bloque panel: superficie compartida por editor y chat. */
+@layer components {
+  .panel {
+    overflow: hidden;
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-panel);
+    backdrop-filter: blur(1.2rem);
+  }
+
+  .panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    border-block-end: var(--border-width) solid var(--color-border);
+  }
+
+  .panel__title {
+    margin: 0;
+    font-size: var(--font-size-md);
+  }
+
+  .panel__meta {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+  }
+}

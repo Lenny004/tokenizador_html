@@ -1,0 +1,93 @@
+/* Bloque chat: mensajes, compositor y leyenda del análisis. */
+@layer components {
+  .chat {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-block-size: var(--panel-min-block-size);
+  }
+
+  .chat__messages {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    overflow: auto;
+  }
+
+  .chat__composer {
+    display: flex;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-5);
+    border-block-start: var(--border-width) solid var(--color-border);
+  }
+
+  .chat__input {
+    flex: 1;
+    min-inline-size: 0;
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    color: var(--color-text);
+    background: var(--color-overlay-dark);
+  }
+
+  .message {
+    --message-border-color: var(--color-primary);
+
+    padding: var(--space-3);
+    border-inline-start: 0.3rem solid var(--message-border-color);
+    border-radius: var(--radius-sm);
+    background: var(--color-overlay);
+  }
+
+  .message--assistant {
+    --message-border-color: var(--color-accent);
+  }
+
+  .message__label {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .message__text {
+    margin-block: var(--space-1) 0;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    border-block-start: var(--border-width) solid var(--color-border);
+    font-size: var(--font-size-xs);
+  }
+
+  .legend__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .legend__dot {
+    --legend-dot-size: 0.8rem;
+
+    inline-size: var(--legend-dot-size);
+    block-size: var(--legend-dot-size);
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .legend__item--structure {
+    color: var(--color-structure);
+  }
+
+  .legend__item--syntax {
+    color: var(--color-syntax);
+  }
+
+  .legend__item--logic {
+    color: var(--color-logic);
+  }
+}

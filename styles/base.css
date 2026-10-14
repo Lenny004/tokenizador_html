@@ -1,6 +1,30 @@
-/* Base tipográfica y layout general del prototipo. */
+/* Tipografía, fondo y utilidades globales. */
 @layer base {
-  body { min-height: 100dvh; background: radial-gradient(circle at 15% 0%, var(--color-radial) 0, transparent 36rem), var(--color-bg); color: var(--color-text); font-family: var(--font-family-display); font-size: var(--font-size-md); line-height: var(--line-height-normal); }
-  ::selection { background: var(--color-primary); color: var(--blue-950); }
-  .sr-only { position: absolute; width: .1rem; height: .1rem; padding: 0; margin: -.1rem; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  body {
+    min-block-size: 100dvh;
+    color: var(--color-text);
+    background: radial-gradient(circle at 15% 0%, var(--color-radial) 0, transparent 36rem), var(--color-bg);
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-normal);
+  }
+
+  ::selection {
+    color: var(--color-on-primary);
+    background: var(--color-primary);
+  }
+
+  .sr-only {
+    --sr-only-size: 0.1rem;
+
+    position: absolute;
+    inline-size: var(--sr-only-size);
+    block-size: var(--sr-only-size);
+    padding: 0;
+    margin: -0.1rem;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 }

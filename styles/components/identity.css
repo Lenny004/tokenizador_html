@@ -1,0 +1,38 @@
+/* Bloque identity: marca visual y texto de presentación. */
+@layer components {
+  .identity {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .identity__mark {
+    --identity-mark-size: 4rem;
+
+    display: grid;
+    place-items: center;
+    inline-size: var(--identity-mark-size);
+    block-size: var(--identity-mark-size);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-accent);
+    background: linear-gradient(145deg, var(--color-brand-start), var(--color-brand-end));
+    font-family: var(--font-family-mono);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .identity__name,
+  .identity__tagline {
+    margin: 0;
+  }
+
+  .identity__name {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-tight);
+  }
+
+  .identity__tagline {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+  }
+}

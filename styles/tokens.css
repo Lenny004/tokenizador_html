@@ -1,6 +1,8 @@
-/* Tokens globales: paleta, tipografía, ritmo y capas. */
-:root {
+/* Tokens primitivos y semánticos del laboratorio. */
+@layer tokens {
+  :root {
   font-size: 62.5%;
+
   --blue-950: #07111f;
   --blue-900: #0c1a2f;
   --blue-800: #122945;
@@ -10,24 +12,30 @@
   --red-400: #ff7b8b;
   --gray-100: #f2f6fb;
   --gray-300: #c8d2df;
-  --gray-500: #8190a3;
+
   --color-primary: var(--blue-500);
+  --color-primary-hover: var(--blue-300);
   --color-accent: var(--teal-400);
+  --color-brand-start: var(--blue-800);
+  --color-brand-end: var(--blue-900);
   --color-bg: var(--blue-950);
-  --color-surface: rgba(17, 37, 64, .84);
-  --color-surface-raised: #152f50;
+  --color-surface: rgba(17, 37, 64, 0.84);
+  --color-surface-raised: var(--blue-800);
   --color-text: var(--gray-100);
   --color-text-muted: var(--gray-300);
-  --color-border: rgba(159, 212, 255, .2);
+  --color-border: rgba(159, 212, 255, 0.2);
   --color-radial: #16355c;
-  --color-overlay: rgba(255, 255, 255, .04);
-  --color-overlay-dark: rgba(0, 0, 0, .12);
+  --color-overlay: rgba(255, 255, 255, 0.04);
+  --color-overlay-dark: rgba(0, 0, 0, 0.12);
   --color-structure: #6ce0ad;
   --color-syntax: #aeb9c8;
   --color-logic: var(--red-400);
-  --color-structure-soft: rgba(108, 224, 173, .08);
-  --color-syntax-soft: rgba(174, 185, 200, .08);
-  --color-logic-soft: rgba(255, 123, 139, .08);
+  --color-structure-soft: rgba(108, 224, 173, 0.08);
+  --color-syntax-soft: rgba(174, 185, 200, 0.08);
+  --color-logic-soft: rgba(255, 123, 139, 0.08);
+  --color-on-primary: var(--blue-950);
+  --color-focus: var(--blue-500);
+
   --font-family-display: "Space Grotesk", "Segoe UI", sans-serif;
   --font-family-mono: "IBM Plex Mono", Consolas, monospace;
   --font-size-xs: 1.2rem;
@@ -40,37 +48,64 @@
   --font-weight-bold: 700;
   --line-height-tight: 1.1;
   --line-height-normal: 1.5;
-  --space-1: .4rem;
-  --space-2: .8rem;
+  --line-height-code: 1.7;
+
+  --space-1: 0.4rem;
+  --space-2: 0.8rem;
   --space-3: 1.2rem;
   --space-4: 1.6rem;
   --space-5: 2.4rem;
   --space-6: 3.2rem;
   --space-7: 4.8rem;
-  --radius-sm: .8rem;
+  --control-height: 4.4rem;
+  --editor-min-block-size: 48rem;
+  --panel-min-block-size: 66rem;
+  --container-max: 144rem;
+
+  --border-width: 0.1rem;
+  --radius-sm: 0.8rem;
   --radius-md: 1.4rem;
   --radius-lg: 2.4rem;
-  --shadow-panel: 0 2rem 6rem rgba(0, 0, 0, .22);
-  --transition-fast: 160ms ease;
-  --container-max: 144rem;
-  --focus-ring: 0 0 0 .3rem rgba(72, 164, 255, .35);
-}
+  --radius-pill: 99rem;
+  --shadow-panel: 0 2rem 6rem rgba(0, 0, 0, 0.22);
+  --focus-ring: 0 0 0 0.3rem rgba(72, 164, 255, 0.35);
+  --transition-fast: 160ms;
+  --transition-none: 0ms;
+  --ease-standard: ease;
+  }
 
-[data-theme="light"] {
-  --color-bg: #eef5fb;
-  --color-surface: rgba(255, 255, 255, .86);
-  --color-surface-raised: #fff;
-  --color-text: #14243a;
-  --color-text-muted: #52657c;
-  --color-border: rgba(18, 41, 69, .16);
-  --color-radial: #d8e9f8;
-  --color-overlay: rgba(18, 41, 69, .04);
-  --color-overlay-dark: rgba(18, 41, 69, .06);
-  --color-structure-soft: rgba(35, 140, 93, .12);
-  --color-syntax-soft: rgba(82, 101, 124, .1);
-  --color-logic-soft: rgba(188, 54, 73, .1);
-}
+  [data-theme="light"] {
+    --color-bg: #eef5fb;
+    --color-surface: rgba(255, 255, 255, 0.86);
+    --color-surface-raised: #fff;
+    --color-text: #14243a;
+    --color-text-muted: #52657c;
+    --color-border: rgba(18, 41, 69, 0.16);
+    --color-radial: #d8e9f8;
+    --color-overlay: rgba(18, 41, 69, 0.04);
+    --color-overlay-dark: rgba(18, 41, 69, 0.06);
+    --color-structure-soft: rgba(35, 140, 93, 0.12);
+    --color-syntax-soft: rgba(82, 101, 124, 0.1);
+    --color-logic-soft: rgba(188, 54, 73, 0.1);
+  }
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) { --color-bg: #eef5fb; --color-surface: rgba(255, 255, 255, .86); --color-surface-raised: #fff; --color-text: #14243a; --color-text-muted: #52657c; --color-border: rgba(18, 41, 69, .16); --color-radial: #d8e9f8; --color-overlay: rgba(18, 41, 69, .04); --color-overlay-dark: rgba(18, 41, 69, .06); }
+  @media (prefers-color-scheme: light) {
+    :root:where(:not([data-theme="dark"])) {
+      --color-bg: #eef5fb;
+      --color-surface: rgba(255, 255, 255, 0.86);
+      --color-surface-raised: #fff;
+      --color-text: #14243a;
+      --color-text-muted: #52657c;
+      --color-border: rgba(18, 41, 69, 0.16);
+      --color-radial: #d8e9f8;
+      --color-overlay: rgba(18, 41, 69, 0.04);
+      --color-overlay-dark: rgba(18, 41, 69, 0.06);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --transition-fast: var(--transition-none);
+    }
+  }
 }

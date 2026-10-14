@@ -1,0 +1,84 @@
+/* Bloque editor: entrada, resaltado y metadatos del código. */
+@layer components {
+  .editor {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-block-size: var(--panel-min-block-size);
+  }
+
+  .editor__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    border-block-end: var(--border-width) solid var(--color-border);
+  }
+
+  .editor__surface {
+    position: relative;
+    min-block-size: var(--editor-min-block-size);
+    overflow: hidden;
+  }
+
+  .editor__highlight,
+  .editor__input {
+    inline-size: 100%;
+    min-block-size: var(--editor-min-block-size);
+    margin: 0;
+    padding: var(--space-5);
+    border: 0;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-code);
+    tab-size: 2;
+    white-space: pre-wrap;
+    overflow: auto;
+  }
+
+  .editor__highlight {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    color: var(--color-text);
+  }
+
+  .editor__input {
+    position: relative;
+    resize: vertical;
+    color: transparent;
+    background: transparent;
+    caret-color: var(--color-text);
+  }
+
+  .editor__mark {
+    --editor-mark-underline: 0.2rem;
+
+    border-radius: var(--radius-sm);
+    color: inherit;
+  }
+
+  .editor__mark--structure {
+    background: var(--color-structure-soft);
+    box-shadow: inset 0 calc(-1 * var(--editor-mark-underline)) var(--color-structure);
+  }
+
+  .editor__mark--syntax {
+    background: var(--color-syntax-soft);
+    box-shadow: inset 0 calc(-1 * var(--editor-mark-underline)) var(--color-syntax);
+  }
+
+  .editor__mark--logic {
+    background: var(--color-logic-soft);
+    box-shadow: inset 0 calc(-1 * var(--editor-mark-underline)) var(--color-logic);
+  }
+
+  .editor__footer {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+  }
+}

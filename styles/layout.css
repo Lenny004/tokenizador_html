@@ -1,0 +1,41 @@
+/* Layout de la aplicación y del espacio de trabajo. */
+@layer layout {
+  .app {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-block-size: 100dvh;
+  }
+
+  .site-header,
+  .workspace {
+    inline-size: 100%;
+    max-inline-size: var(--container-max);
+    margin-inline: auto;
+  }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(30rem, 0.75fr);
+    gap: var(--space-4);
+    padding: 0 var(--space-4) var(--space-6);
+  }
+
+  @media (min-width: 72rem) {
+    .site-header,
+    .workspace {
+      padding-inline: var(--space-6);
+    }
+
+    .workspace {
+      grid-template-columns: minmax(0, 1.45fr) minmax(30rem, 0.75fr);
+    }
+  }
+}
