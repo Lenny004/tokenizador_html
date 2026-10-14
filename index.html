@@ -17,7 +17,9 @@
       <section class="panel editor" aria-labelledby="editor-title">
         <div class="panel__header"><h1 class="panel__title" id="editor-title">Código fuente</h1><span class="panel__meta" id="runtime-status">Cargando Python…</span></div>
         <div class="editor__toolbar"><button class="button button--primary" id="analyze-button" type="button">Analizar código</button><label class="button" for="file-input">Cargar HTML</label><input class="sr-only" id="file-input" type="file" accept=".html,.htm,text/html"><button class="button" id="example-button" type="button">Abrir ejemplo</button></div>
-        <textarea class="editor__input" id="code-input" spellcheck="false" aria-label="Editor HTML"><!doctype html>
+        <div class="editor__surface">
+          <pre class="editor__highlight" id="editor-highlight" aria-hidden="true"></pre>
+          <textarea class="editor__input" id="code-input" spellcheck="false" aria-label="Editor HTML"><!doctype html>
 <html lang="es">
   <body>
     <main id="app"><h1>Escribe o carga tu HTML</h1></main>
@@ -27,6 +29,7 @@
     </script>
   </body>
 </html></textarea>
+        </div>
         <div class="editor__footer"><span id="line-count">1 línea</span><span id="token-count">Listo para analizar</span></div>
       </section>
       <aside class="panel chat" aria-labelledby="chat-title">
