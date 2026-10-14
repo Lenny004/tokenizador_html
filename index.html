@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Prototipo de análisis estático de HTML5 y JavaScript ejecutado en el navegador.">
+  <title>Tokenizador HTML · laboratorio de sintaxis</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><div class="brand__mark" aria-hidden="true">&lt;/&gt;</div><div><p class="brand__name">Tokenizador HTML</p><p class="brand__tagline">laboratorio de análisis estático</p></div></div>
+      <button class="button" id="theme-button" type="button" aria-label="Cambiar tema">◐ Tema</button>
+    </header>
+    <main class="workspace">
+      <section class="panel editor" aria-labelledby="editor-title">
+        <div class="panel__header"><h1 class="panel__title" id="editor-title">Código fuente</h1><span class="panel__meta" id="runtime-status">Cargando Python…</span></div>
+        <div class="editor__toolbar"><button class="button button--primary" id="analyze-button" type="button">Analizar código</button><label class="button" for="file-input">Cargar HTML</label><input class="sr-only" id="file-input" type="file" accept=".html,.htm,text/html"><button class="button" id="example-button" type="button">Abrir ejemplo</button></div>
+        <div class="editor__surface">
+          <pre class="editor__highlight" id="editor-highlight" aria-hidden="true"></pre>
+          <textarea class="editor__input" id="code-input" spellcheck="false" aria-label="Editor HTML"><!doctype html>
+<html lang="es">
+  <body>
+    <main id="app"><h1>Escribe o carga tu HTML</h1></main>
+    <script>
+      const ready = true;
+      console.log(ready);
+    </script>
+  </body>
+</html></textarea>
+        </div>
+        <div class="editor__footer"><span id="line-count">1 línea</span><span id="token-count">Listo para analizar</span></div>
+      </section>
+      <aside class="panel chat" aria-labelledby="chat-title">
+        <div class="panel__header"><h2 class="panel__title" id="chat-title">Hallazgos del pipeline</h2><span class="panel__meta">HTML5 + JS</span></div>
+        <div class="chat__messages" id="messages" aria-live="polite"><div class="message message--assistant"><span class="message__label">asistente</span><p class="message__text">Pega tu código y ejecuto el lexer, el AST y el grafo de reglas en capas.</p></div></div>
+        <div class="chat__composer"><input class="chat__input" id="chat-input" type="text" placeholder="Pregunta sobre los hallazgos…" aria-label="Pregunta sobre los hallazgos"><button class="button button--primary" id="chat-button" type="button">Enviar</button></div>
+        <div class="legend"><span class="legend__item legend__item--structure"><i class="legend__dot"></i>Estructura</span><span class="legend__item legend__item--syntax"><i class="legend__dot"></i>Sintaxis</span><span class="legend__item legend__item--logic"><i class="legend__dot"></i>Lógica</span></div>
+      </aside>
+    </main>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
