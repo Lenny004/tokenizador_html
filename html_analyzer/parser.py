@@ -7,6 +7,20 @@ from .lexer import Token, tokenize_html, tokenize_js
 
 @dataclass(slots=True)
 class AstNode:
+    """Nodo del arbol tolerante de elementos HTML o scripts embebidos.
+
+    Attributes:
+        node_type: Tipo del nodo, como `document`, `element` o `script`.
+        name: Nombre del elemento o identificador del nodo especial.
+        line: Linea de origen del nodo.
+        column: Columna de origen del nodo.
+        attributes: Atributos HTML y sus valores normalizados.
+        attribute_tokens: Token asociado a cada atributo.
+        children: Nodos descendientes en el orden del documento.
+        tokens: Tokens JavaScript de un nodo `script`.
+        closing: Indicador conservado para representar cierres explicitos.
+    """
+
     node_type: str
     name: str
     line: int
@@ -20,6 +34,14 @@ class AstNode:
 
 @dataclass(slots=True)
 class ParseResult:
+    """Resultado del parsing con raiz, tokens HTML y scripts encontrados.
+
+    Attributes:
+        root: Nodo raiz del documento.
+        tokens: Tokens HTML producidos por el lexer.
+        scripts: Nodos `script` con sus tokens JavaScript.
+    """
+
     root: AstNode
     tokens: list[Token]
     scripts: list[AstNode]
@@ -29,6 +51,14 @@ VOID_ELEMENTS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "li
 
 
 def parse_html(source: str) -> ParseResult:
+    """Construye un arbol HTML tolerante y tokeniza el contenido de los scripts.
+
+    Args:
+        source: Documento HTML de entrada.
+
+    Returns:
+        Resultado con el arbol, los tokens HTML y los scripts detectados.
+    """
     tokens = tokenize_html(source)
     root = AstNode("document", "#document", 1, 1)
     stack = [root]
