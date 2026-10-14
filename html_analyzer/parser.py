@@ -12,6 +12,7 @@ class AstNode:
     line: int
     column: int
     attributes: dict[str, str] = field(default_factory=dict)
+    attribute_tokens: dict[str, Token] = field(default_factory=dict)
     children: list["AstNode"] = field(default_factory=list)
     tokens: list[Token] = field(default_factory=list)
     closing: bool = False
@@ -48,7 +49,9 @@ def parse_html(source: str) -> ParseResult:
                     break
             current_tag = None
         elif token.kind == "attribute" and current_tag is not None:
-            current_tag.attributes[token.value.lower()] = ""
+            name = token.value.lower()
+            current_tag.attributes[name] = ""
+            current_tag.attribute_tokens[name] = token
         elif token.kind in {"attribute_value", "invalid_attribute_value"} and current_tag is not None:
             if current_tag.attributes:
                 name = next(reversed(current_tag.attributes))

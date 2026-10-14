@@ -103,15 +103,36 @@ def _find_tag_end(source: str, start: int) -> int:
 
 def _attribute_tokens(body: str, source: str, absolute_start: int) -> list[Token]:
     tokens: list[Token] = []
-    pattern = re.compile(r"([:\w-]+)(?:\s*=\s*(\"[^\"]*\"|'[^']*'|[^\s]+))?")
-    for match in pattern.finditer(body):
-        name_start = absolute_start + match.start(1)
-        tokens.append(_token("attribute", match.group(1), source, name_start, absolute_start + match.end(1)))
-        value = match.group(2)
-        if value:
-            value_start = absolute_start + match.start(2)
-            kind = "attribute_value" if value[:1] in "\"'" and value[-1:] == value[:1] else "invalid_attribute_value"
-            tokens.append(_token(kind, value, source, value_start, absolute_start + match.end(2)))
+    index = 0
+    while index < len(body):
+        match = re.match(r"[\s]*([:\w-]+)", body[index:])
+        if not match:
+            break
+        name_start = absolute_start + index + match.start(1)
+        name = match.group(1)
+        tokens.append(_token("attribute", name, source, name_start, name_start + len(name)))
+        index += match.end()
+        equals = re.match(r"\s*=\s*", body[index:])
+        if not equals:
+            continue
+        index += equals.end()
+        value_start = index
+        if index >= len(body):
+            break
+        if body[index] in "\"'":
+            quote = body[index]
+            end = body.find(quote, index + 1)
+            if end < 0:
+                value_end = len(body)
+                tokens.append(_token("invalid_attribute_value", body[value_start:value_end], source, absolute_start + value_start, absolute_start + value_end))
+                break
+            index = end + 1
+            tokens.append(_token("attribute_value", body[value_start:index], source, absolute_start + value_start, absolute_start + index))
+            continue
+        value_match = re.match(r"[^\s]+", body[index:])
+        if value_match:
+            index += value_match.end()
+            tokens.append(_token("attribute_value", value_match.group(0), source, absolute_start + value_start, absolute_start + index))
     return tokens
 
 
