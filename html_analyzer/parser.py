@@ -46,6 +46,7 @@ def parse_html(source: str) -> ParseResult:
                 if stack[index].name == token.value.lower():
                     del stack[index:]
                     break
+            current_tag = None
         elif token.kind == "attribute" and current_tag is not None:
             current_tag.attributes[token.value.lower()] = ""
         elif token.kind in {"attribute_value", "invalid_attribute_value"} and current_tag is not None:

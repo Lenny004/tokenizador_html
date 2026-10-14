@@ -6,6 +6,7 @@ def test_parser_builds_script_ast():
     assert result.root.children[0].name == "html"
     assert len(result.scripts) == 1
     assert any(token.value == "ready" for token in result.scripts[0].tokens)
+    assert all(script.name == "script" for script in result.scripts)
 
 
 def test_parser_keeps_void_elements_without_children():
