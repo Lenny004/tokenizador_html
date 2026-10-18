@@ -14,6 +14,24 @@
     overflow: auto;
   }
 
+  .chat__divider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .chat__divider::before,
+  .chat__divider::after {
+    content: "";
+    flex: 1;
+    block-size: var(--border-width);
+    background: var(--color-border);
+  }
+
   .chat__composer {
     display: flex;
     gap: var(--space-2);

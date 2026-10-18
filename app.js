@@ -5,6 +5,8 @@ const messages = document.querySelector("#messages");
 let pyodide;
 let latestResult = null;
 
+const WELCOME = "Pega tu código y ejecuto el lexer, el AST y el grafo de reglas en capas.";
+
 const addMessage = (text, assistant = true) => {
   const node = document.createElement("div");
   node.className = `message${assistant ? " message--assistant" : ""}`;
@@ -12,6 +14,25 @@ const addMessage = (text, assistant = true) => {
   node.querySelector(".message__text").textContent = text;
   messages.append(node);
   messages.scrollTop = messages.scrollHeight;
+  return node;
+};
+
+const addDivider = (label) => {
+  const node = document.createElement("div");
+  node.className = "chat__divider";
+  node.setAttribute("role", "separator");
+  const text = document.createElement("span");
+  text.textContent = label;
+  node.append(text);
+  messages.append(node);
+  return node;
+};
+
+const resetChat = (text = WELCOME) => {
+  messages.replaceChildren();
+  latestResult = null;
+  document.querySelector("#token-count").textContent = "Listo para analizar";
+  addMessage(text);
 };
 
 async function loadPython() {
@@ -78,9 +99,11 @@ async function analyzeCode() {
   latestResult = JSON.parse(output);
   updateHighlight(latestResult.findings);
   document.querySelector("#token-count").textContent = `${latestResult.tokens.toLocaleString("es")} tokens · ${latestResult.elapsed_ms} ms`;
-  messages.querySelectorAll(".finding").forEach((node) => node.remove());
+  messages.querySelectorAll(".finding, .message--analysis, .chat__divider").forEach((node) => node.remove());
   const summary = latestResult.summary;
-  addMessage(`Análisis completo: ${summary.total} hallazgo${summary.total === 1 ? "" : "s"}. Estructura ${summary.structure}, sintaxis ${summary.syntax}, lógica ${summary.logic}.`);
+  addDivider("Análisis");
+  const summaryNode = addMessage(`Análisis completo: ${summary.total} hallazgo${summary.total === 1 ? "" : "s"}. Estructura ${summary.structure}, sintaxis ${summary.syntax}, lógica ${summary.logic}.`);
+  summaryNode.classList.add("message--analysis");
   latestResult.findings.forEach((finding) => {
     const node = document.createElement("div");
     node.className = `finding finding--${finding.layer}`;
@@ -111,12 +134,22 @@ codeInput.addEventListener("input", () => { updateEditorMeta(); updateHighlight(
 codeInput.addEventListener("scroll", syncEditorScroll);
 document.querySelector("#file-input").addEventListener("change", async (event) => {
   const [file] = event.target.files;
-  if (file) { codeInput.value = await file.text(); updateEditorMeta(); updateHighlight(); addMessage(`Cargué ${file.name}. Pulsa “Analizar código” para recorrerlo.`); }
+  if (file) {
+    codeInput.value = await file.text();
+    updateEditorMeta();
+    updateHighlight();
+    resetChat(`Cargué ${file.name}. Pulsa “Analizar código” para recorrerlo.`);
+    event.target.value = "";
+  }
 });
 document.querySelector("#example-button").addEventListener("click", async () => {
   const response = await fetch("ejemplo_prueba.html");
-  codeInput.value = await response.text(); updateEditorMeta(); updateHighlight(); addMessage("Cargué el ejemplo sembrado con errores de las tres capas.");
+  codeInput.value = await response.text();
+  updateEditorMeta();
+  updateHighlight();
+  resetChat("Cargué el ejemplo sembrado con errores de las tres capas.");
 });
+document.querySelector("#clear-chat-button").addEventListener("click", () => resetChat());
 document.querySelector("#chat-button").addEventListener("click", () => {
   const input = document.querySelector("#chat-input");
   if (!input.value.trim()) return;
